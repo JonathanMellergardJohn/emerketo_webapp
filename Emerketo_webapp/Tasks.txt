@@ -1,0 +1,47 @@
+﻿PRIORITY TASKS
+
+	< implement navigation and views
+		<> partials
+			<> Header
+			<> Footer
+			<> Product Card
+			<> Hero display
+		< controllers
+			<> home
+				<> index
+			<> account
+				<> login
+				<> register
+			< contact
+				<index
+		< views 
+			<> home index
+			<> account login
+			<> account register
+			< contact index
+
+	< Watch Module 7
+		< watch video 1 
+		< watch video 2
+		< watch video 5 (View Components)
+		< watch video 6 (view components)
+	< implement DetailsViewModel, showing related products (of same category)
+		< remember to add a using statement in _ViewImports!!!
+	< implement star system, displaying number of stars properly
+		< remove second decimal from rating number
+	< implement logic for displaying categories
+	
+		
+
+ADDITIONAL TASKS
+	> fix product images. Store all images in wwwroot/images folder
+	> set up API for handling images
+	> set up Image entity
+	> create a Category entity and a many-to-many relationship with Product
+COMPLETED TASKS
+	<> watch module 6
+	<> implement Module 5
+	<> implement Module 4
+	<> fix html: remove need for placeholder classes
+	<> fix html: remove additional 4 images on product page
+	<> download images for 0, 1, 2, and 4 categories

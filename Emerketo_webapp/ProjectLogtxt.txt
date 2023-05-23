@@ -1,0 +1,76 @@
+﻿-- 23 may --
+	- 01:18 -
+
+Time to regroup. I have completed Module 6 and I have a pretty good grasp of
+the basic tasks that have to be completed to achieve a sound set up for routes 
+and views. It would be ideal to get through Module 7 as well, as this goes 
+through the basics of using partials. Looking at the content of the Module, it
+seems I don't really have to go through all of it, as I don't plan to implement
+the shopping cart at this time.
+
+At this time, my sense is that I have a few major parts that have to be completed:
+	< Navigation and views (including partials and viewmodels)
+	< Forms and Model binding
+	< Identity
+
+I have tuesday, wednesday, thursday to do this. If I'm lucky, I'll have some
+time friday as well, maximum half a day. That leaves about 3 days. Navigation 
+is within grasp but will take some time and a bit of planning. Forms I'm 
+uncertain about. Identity is the real challenge, as this is central to the 
+task as well. It would be ideal if I have completed Navigation/views to an 
+acceptable level asap, to allow 3 full days to deal with forms and identity.
+
+-- 21 may -- 
+	- 16:25 -
+
+Starting the implementation of the MVC-design. The main model to be used
+is the Product model. In the bare bones approach, this should be all that
+is needed.
+
+The Product will make use of categories. Ideally, this should be set up
+as a many-to-many relationship between an entity Product and an entity
+Category. Since I might run into trouble setting this up, and the 
+assignment only specifies that three categories are needed (new, featured,
+popular), I will use boolen properties on the Product model for now.
+
+An additional problem is with the images. Ideally, the Product should have 
+a property for ImageUrl and ThumbnailUrl. Then, an API should be set up with
+url endpoints for the images where they can be fetched by the webapp. Further,
+an entity Image should be created. This should be set up as in a one-to-many 
+relationship with Product, i.e. each Product can have many images, but each 
+image has only one Product. The Image entity should contain these properties:
+	Id
+	ProductId
+	IsPrimary
+	ImageUrl
+	ThumbnailUrl
+
+However, at this time I will use a much simpler approach. I will construct 
+the ability to use the approach described above, but create a helper method
+and some backup images that are stored in wwwroot. If the property ImageUrl is
+null or an empty string, the method will look for images in the wwwroot/images
+folder. The image to select will depend on the category. 
+	category options:
+		none
+		new
+		popular
+		featured
+		new, popular
+		new, featured
+		new, featured, popular
+		popular, featured
+
+There are eight possible combinations of categories. However, I will simply make
+the helper method select the image based on if the Product has none, 1, 2 or three
+categories.
+
+	- 21:00 -
+
+Wondering whether I should set up a proper Category entity with a many-to-many relationship
+after all, rather than using the boolean approach. It seems all that is needed
+is to set up an ICollection with the type of the other entity with a name of
+the other entity pluralized to set it up. 
+
+It seems it should be relatively straightforward, but from experience it could
+be trickier than expected when it comes to adding new products etc. I'll go for 
+the boolen approach to start after all.

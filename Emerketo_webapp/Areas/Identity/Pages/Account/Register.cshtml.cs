@@ -13,12 +13,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Emerketo_webapp.Areas.Identity.Pages.Account
@@ -118,28 +116,14 @@ namespace Emerketo_webapp.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-                var userStore = new UserStore<IdentityUser>(YourDbContext);
-                var roleStore = new RoleStore<IdentityRole>(YourDbContext);
-
-                var userManager = new UserManager<IdentityUser>(userStore, null, null, null, null, null, null, null, null);
-                var roleManager = new RoleManager<IdentityRole>(roleStore, null, null, null, null);
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    // Check if there are no users in the database
-                    var isFirstUser = await userManager.Users.CountAsync() == 1;
-
-                    // Assign role based on the condition
-                    var role = isFirstUser ? "Admin" : "Staff";
-                    await userManager.AddToRoleAsync(user, role);
-
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await userManager.GetUserIdAsync(user);
-                    var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",

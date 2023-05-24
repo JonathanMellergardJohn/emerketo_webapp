@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Emerketo_webapp.Models
 {
-    public class EmerketoDbContext : DbContext
+    public class EmerketoDbContext : IdentityDbContext
     {
         public EmerketoDbContext(DbContextOptions<EmerketoDbContext> options) : base(options) 
         { 

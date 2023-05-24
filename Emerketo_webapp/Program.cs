@@ -29,6 +29,7 @@ var app = builder.Build();
     // Middleware can be added to the variable app
 
 app.UseStaticFiles();
+app.UseAuthentication();
 
 if (app.Environment.IsDevelopment())
 {

@@ -24,7 +24,9 @@ builder.Services.AddDbContext<EmerketoDbContext>(options =>
         builder.Configuration["ConnectionStrings:EmerketoDbContextConnection"]);
 });
 
+// Adds Identity, including Roles!
 builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EmerketoDbContext>();
 
 var app = builder.Build();

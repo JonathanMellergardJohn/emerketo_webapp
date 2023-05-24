@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Emerketo_webapp.Areas.Identity.Pages.Account
@@ -29,15 +30,19 @@ namespace Emerketo_webapp.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        // add role manager to the scaffold
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
@@ -120,6 +125,13 @@ namespace Emerketo_webapp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    // Check if there are no users in the database
+                    var isFirstUser = await _userManager.Users.CountAsync() == 1;
+
+                    // Assign role based on the condition
+                    var role = isFirstUser ? "Admin" : "Staff";
+                    await AssignUserRole(user, role);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -175,6 +187,20 @@ namespace Emerketo_webapp.Areas.Identity.Pages.Account
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
+        }
+
+        // Add this to the scaffold to assign role
+        private async Task AssignUserRole(IdentityUser user, string roleName)
+        {
+            // Check if the role already exists
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                // If the role doesn't exist, create it
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            // Assign the role to the user
+            await _userManager.AddToRoleAsync(user, roleName);
         }
     }
 }

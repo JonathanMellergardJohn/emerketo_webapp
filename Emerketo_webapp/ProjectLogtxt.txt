@@ -1,8 +1,12 @@
 ﻿-- 24 may --
+	- 00:38 --	
+This feels relatively in reach now. With Identity implemented, I feel like I have most of the 
+big picture issues sorted. Problem is to set down a plan to get it all done.
 
+	- 20:05 -
 I've managed to scaffold Identity as a Razor library. Had to implement Razor Pages to 
 make it work. But now it works. I'm able to register a new user. The first new user is
-assigned "Admin", all other users are registered as "Staff". 
+assigned "Admin", all other users are registered as "Staff". This is where I'm at right now:
 
 //GODKÄNT
 

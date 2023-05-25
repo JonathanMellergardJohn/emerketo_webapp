@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emerketo_webapp.Models
 {
-    public class EmerketoDbContext : IdentityDbContext
+	// the argument <ApplicationUser> is passed as I've created a new class for handling identity 
+    // that inherits from IdentityUser
+	public class EmerketoDbContext : IdentityDbContext<ApplicationUser>
     {
         public EmerketoDbContext(DbContextOptions<EmerketoDbContext> options) : base(options) 
         { 
